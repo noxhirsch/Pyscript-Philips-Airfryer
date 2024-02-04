@@ -6,7 +6,8 @@
 - airfryer.py => Move to /config/pyscript/ and adjust the settings in lines 2-7 (Pyscript needs to bee installed)
 - frontend_card.txt => Create a new "manual card" and copy&paste the content of the txt-file (button-card needs to be installed)
 
-![Preview of the frontend card](https://community-assets.home-assistant.io/original/4X/f/4/7/f478fb45535e7270deaf25d216ed75828ac171c4.png)
+<img alt="image" src="https://github.com/noxhirsch/Pyscript-Philips-Airfryer/assets/30938717/93ffddc8-aae4-4a8f-b554-a6a98ffc0a8f">
+
 
 ## Some information:
 - While testing I crashed my Airfryer multiple times in the process. So far everything was fine after a reboot and I think I fixed it now - but I can't promise anything.
