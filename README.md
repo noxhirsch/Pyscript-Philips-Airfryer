@@ -2,10 +2,14 @@
 
 > :warning: **DISCLAIMER: Use at your own risk only! This code is unofficial (not affiliated with Philips), _probably poorly programmed_ and work in progress. It could damage your device or property. It could cause errors in the Airfryer, bypass its safety features and, for example, cause a fire. I'm not responsible for any damage if you use this code anyway.** :warning:
 
+## Content
+- airfryer.py => Move to /config/pyscript/ (Pyscript needs to bee installed)
+- frontend_card.txt => Create a new "manual card" and copy&paste the content of the txt-file (button-card needs to be installed)
+
 ## Some information:
 - While testing I crashed my Airfryer multiple times in the process. So far everything was fine after a reboot and I think I fixed it now - but I can't promise anything.
 - You need the clientId & clientSecret of your Airfryer. One way to get it I described below.
-- Check the comments in `airfryer.py` for all the settings & services
+- Check the comments in `airfryer.py` for all the settings & services. Also all services are described in Home Assistant Dev Tools > Services (search for "pyscript.airfryer_")
 - The file airfryer.py requires pyscript (found in HACS) to run and "Allow All Imports" needs to be enabled in pyscript config.
 - The frontend card requires custom:button-card (found in HACS)
 
