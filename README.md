@@ -21,7 +21,7 @@
         # airspeed: False          # Set it to True only for HD9880/90
         # probe: False             # Set it to True only for HD9880/90 & HD9875/90
         # update_interval: '20sec' # Change interval to update sensor - you can also call service 'pyscript.airfryer_sensors_update' to get an instant update
-        # replace_timestamp: False # Set to True if you block internet for the Airfryer. Replaces device timestamp with server timestamp
+        # replace_timestamp: False # Set to True if you block internet for the Airfryer. Replaces wrong device timestamp with correct server timestamp
   ```
 - airfryer.py => Download and move to /config/pyscript/ 
 - frontend_card.txt => Create a new "manual card" in the Home Assistant UI and copy & paste the content of the file into it (button-card needs to be installed)
