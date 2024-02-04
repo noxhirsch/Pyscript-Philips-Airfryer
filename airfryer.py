@@ -621,7 +621,8 @@ def set_entities(response):
         pyscript.airfryer_total_time = ""
         pyscript.airfryer_disp_time = ""
         pyscript.airfryer_progress = 0
-        pyscript.airfryer_response_time = 0
+        if response_time:
+            pyscript.airfryer_response_time = 0
         if airspeed:
             pyscript.airfryer_airspeed = 0
         if probe:
@@ -633,7 +634,8 @@ def set_entities(response):
         pyscript.airfryer_temp = content.get('temp')
         pyscript.airfryer_drawer_open = content.get('drawer_open')
         pyscript.airfryer_dialog = content.get('dialog')
-        pyscript.airfryer_response_time = round(response[1].elapsed.total_seconds(),3)
+        if response_time:
+            pyscript.airfryer_response_time = round(response[1].elapsed.total_seconds(),3)
         if content.get('disp_time') == 0 or content.get('status') == "standby" or content.get('status') == "powersave":
             pyscript.airfryer_progress = 0
             pyscript.airfryer_timestamp = ""
