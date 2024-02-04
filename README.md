@@ -5,6 +5,7 @@
 ## Content
 - airfryer.py => Move to /config/pyscript/ and adjust the settings in lines 2-7 (Pyscript needs to bee installed)
 - frontend_card.txt => Create a new "manual card" and copy&paste the content of the txt-file (button-card needs to be installed)
+
 ![Preview of the frontend card](https://community-assets.home-assistant.io/original/4X/f/4/7/f478fb45535e7270deaf25d216ed75828ac171c4.png)
 
 ## Some information:
