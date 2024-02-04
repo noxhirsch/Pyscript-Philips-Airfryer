@@ -3,7 +3,7 @@
 > :warning: **DISCLAIMER: Use at your own risk only! This code is unofficial (not affiliated with Philips), _probably poorly programmed_ and work in progress. It could damage your device or property. It could cause errors in the Airfryer, bypass its safety features and, for example, cause a fire. I'm not responsible for any damage if you use this code anyway.** :warning:
 
 ## Content
-- airfryer.py => Move to /config/pyscript/ (Pyscript needs to bee installed)
+- airfryer.py => Move to /config/pyscript/ and adjust the settings in lines 2-7 (Pyscript needs to bee installed)
 - frontend_card.txt => Create a new "manual card" and copy&paste the content of the txt-file (button-card needs to be installed)
 
 ## Some information:
