@@ -1,18 +1,3 @@
-################### SETTINGS ###################
-airfryer_ip       = '192.168.0.123'
-client_id         = 'XXXXXXXXXXXXXXXXXXXXXX=='
-client_secret     = 'XXXXXXXXXXXXXXXXXXXXXX=='
-airspeed          = False   # True for HD9880/90 else set to False
-probe             = False   # True for HD9880/90 & HD9875/90 else set to False
-command_url       = "/di/v1/products/1/airfryer" # replace with "/di/v1/products/1/venusaf" for some devices (HD9880/90, ...?)
-
-update_interval   = '20sec' # Interval to update sensor - you can also call service 'pyscript.airfryer_sensors_update' to get an instant update
-sleep_time        = 0.1     # Since I added a new type of "command-crash-detection", 100ms sleep time should be enough
-replace_timestamp = False   # If internet access is blocked for the airfryer, it loses the time. This replaces the device timestamp with the server timestamp (time display may be off by 1-2 seconds as a result)
-
-response_time     = False   # For debugging purposes
-debug_offline     = False   # For debugging purposes
-
 ############## AVAILABLE SERVICES ##############
 ### All services are described when you select them in Home Assistant Dev Tools > Services (or of course in the code below)
 ### For all devices:
@@ -34,6 +19,11 @@ debug_offline     = False   # For debugging purposes
 # Based on Carsten T.'s findings on how to authenticate:
 # https://community.home-assistant.io/t/philips-airfryer-nutriu-integration-alexa-only/544333/15
 
+############## ADVANCED SETTINGS ###############
+sleep_time    = 0.1     # Since I added a new type of "command-crash-detection", 100ms sleep time should be enough
+response_time = False   # For debugging purposes
+debug_offline = False   # For debugging purposes
+
 ################################################
 ##################### CODE #####################
 ################################################
@@ -43,6 +33,27 @@ import requests
 import json
 import datetime
 import asyncio
+
+config = pyscript.config.get('apps').get('airfryer')
+if config == None:
+    log.error("############### Airfryer: No config found. Please check the documentation! ###############")
+    airfryer_ip       = ""
+    client_id         = ""
+    client_secret     = ""
+    airspeed          = False 
+    probe             = False
+    command_url       = '/di/v1/products/1/airfryer'
+    update_interval   = '86400sec'
+    replace_timestamp = False
+else:
+    airfryer_ip       = config.get('airfryer_ip')
+    client_id         = config.get('client_id')
+    client_secret     = config.get('client_secret')
+    airspeed          = config.get('airspeed', False)
+    probe             = config.get('probe', False)
+    command_url       = config.get('command_url', '/di/v1/products/1/airfryer')
+    update_interval   = config.get('update_interval', '20sec')
+    replace_timestamp = config.get('replace_timestamp', False)
 
 state.persist('pyscript.airfryer_token', '')
 state.persist('pyscript.airfryer_status')
