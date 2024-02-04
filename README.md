@@ -28,11 +28,10 @@
 
 
 ## Some information:
-- While testing I crashed my Airfryer multiple times in the process. So far everything was fine after a reboot and I think I fixed it now - but I can't promise anything.
-- You need the clientId & clientSecret of your Airfryer. One way to get it I described below.
-- Check the comments in `airfryer.py` for all the settings & services. Also all services are described in Home Assistant Dev Tools > Services (search for "pyscript.airfryer_")
-- The file airfryer.py requires pyscript (found in HACS) to run and "Allow All Imports" needs to be enabled in pyscript config.
-- The frontend card requires custom:button-card (found in HACS)
+- While testing this script from the very beginning until right before v1.0-beta, I crashed my Airfryer multiple times. So far everything was fine after a reboot and I think I fixed it now - but I can't promise anything.
+- All services are described in Home Assistant Dev Tools > Services (search for "pyscript.airfryer_")
+- All sensors can be found in Home Assistant Dev Tools > States (search for "pyscript.airfryer_")
+- All communication with the Airfryer takes place locally. You can also block the internet connection for the Airfryer - only then should you set `replace_timestamp` in the settings to `True`, otherwise the calculation of the remaining time in the frontend will no longer work.
 
 ## How to get the `client_id` and `client_secret`:
 1. Create a bootstick with Android x86 and boot from it or install it in Proxmox. It seems to be important that Android x86 and the Airfryer are in the same network & subnet. Installing Android x86 in for example VMware might work, but seems to have some problems. *Ignore this step if you have a rooted Android phone or tablet.*
