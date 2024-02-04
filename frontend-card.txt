@@ -1,0 +1,156 @@
+type: custom:button-card
+entity: pyscript.airfryer_status
+show_icon: false
+show_state: false
+show_name: false
+styles:
+  card:
+    - padding: 0
+    - font-size: 14px
+    - color: '#ffffff'
+    - border: 1.2px solid rgba(255, 166, 0, 0.2)
+  grid:
+    - position: relative
+    - grid-template-areas: '"state temperature remaining" "progress progress progress"'
+    - grid-template-columns: 1fr 1fr 1fr
+    - grid-template-rows: 40px 22px
+  custom_fields:
+    state:
+      - justify-self: start
+      - padding-left: 10px
+      - z-index: 2
+    remaining:
+      - justify-self: end
+      - padding-right: 10px
+      - z-index: 2
+      - color: '#ffffff'
+      - font-size: 18px
+    temperature:
+      - z-index: 2
+      - font-size: 18px
+      - position: relative
+      - top: '-1px'
+    progress:
+      - background: |-
+          [[[ return "linear-gradient(to right,#ffa600 " + 
+          states['pyscript.airfryer_progress'].state + "%,#FFF2 " + 
+          states['pyscript.airfryer_progress'].state + "%,#FFF2 " + 
+          states['pyscript.airfryer_progress'].state + "%)"; ]]]
+      - transition: width 1s ease
+      - position: absolute
+      - top: 0px
+      - left: 10px
+      - right: 10px
+      - height: 12px
+      - border-radius: 6px
+extra_styles: |-
+  ha-icon{position:relative;top:-1px;width:22px;}
+  .fan-on{
+    animation: ckw 2s linear infinite;
+    transform-origin: center center;
+    transform-box: fill-box;
+  }
+  @keyframes ckw {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+  }
+custom_fields:
+  progress: ''
+  temperature: |-
+    [[[ 
+      var content = ""
+      content += states['pyscript.airfryer_temp'].state + "<span style='opacity:0.5;'>°C</span>"
+      if(states['pyscript.airfryer_temp_probe'] != undefined && states['pyscript.airfryer_temp_probe'].state > 0){
+        content += " <span style='opacity:0.4;'>(" + states['pyscript.airfryer_temp'].state + "°C)</span>"
+      }
+      return content;
+    ]]]
+  state: |-
+    [[[ 
+      var content = ""
+      if(states['pyscript.airfryer_status'].state == "cooking"){
+        content += "<ha-icon icon='mdi:play-circle-outline'></ha-icon>"
+      }
+      else{content += "<ha-icon icon='mdi:pause-circle-outline'></ha-icon>"}
+      
+      if(states['pyscript.airfryer_airspeed'] != undefined && states['pyscript.airfryer_airspeed'].state == 2 && states['pyscript.airfryer_status'].state == "cooking"){
+        content += "<ha-icon icon='mdi:fan' class='fan-on' style='margin-left:5px;'></ha-icon>"
+        content += "<ha-icon icon='mdi:fan' class='fan-on' style='margin-left:-11px;background:#1c1c1c;position:relative;border-radius:50%;outline:0.5px solid #1c1c1c;'></ha-icon>"
+      }
+      else if(states['pyscript.airfryer_status'].state == "cooking"){
+        content += "<ha-icon icon='mdi:fan' class='fan-on' style='margin-left:5px;'></ha-icon>"
+      }
+      else if(states['pyscript.airfryer_airspeed'] != undefined && states['pyscript.airfryer_airspeed'].state == 2){
+        content += "<ha-icon icon='mdi:fan' style='margin-left:5px;'></ha-icon>"
+        content += "<ha-icon icon='mdi:fan' style='margin-left:-11px;background:#1c1c1c;position:relative;border-radius:50%;outline:0.5px solid #1c1c1c;'></ha-icon>"
+      }
+      else{
+        content += "<ha-icon icon='mdi:fan' style='margin-left:5px;'></ha-icon>"
+      }
+      
+      if(states['pyscript.airfryer_probe_unplugged'] != undefined && states['pyscript.airfryer_probe_unplugged'].state == "False"){
+        content += "<ha-icon icon='mdi:thermometer' style='margin-left:5px;'></ha-icon>"
+      }
+      if(states['pyscript.airfryer_drawer_open'].state == "True"){
+        content += "<ha-icon icon='mdi:archive-arrow-down-outline' style='color:red;margin-left:5px;'></ha-icon>"
+      }
+      if(states['pyscript.airfryer_dialog'].state != "none" & states['pyscript.airfryer_dialog'].state != "close_drawer "){
+        content += "<ha-icon icon='mdi:message-alert-outline' style='color:red;margin-left:5px;'></ha-icon>"
+      }
+      return content;
+    ]]]
+  remaining: |-
+    [[[
+      var real_position;
+      function myTime(time) {
+        if(!isNaN(time)){
+          var hr = ~~(time / 3600);
+          var min = ~~((time % 3600) / 60);
+          var sec = time % 60;
+          var sec_min = "";
+          if (hr > 0) {
+              sec_min += "" + hr + ":" + (min < 10 ? "0" : "");
+          }
+          sec_min += "" + min + ":" + (sec < 10 ? "0" : "");
+          sec_min += "" + sec;
+          return sec_min;
+        }
+        return '';
+      }
+      if(typeof(entity)!='undefined' && entity.state != 'offline' && entity.state != 'standby' && entity.state != 'powersave'){
+        var total_duration = states["pyscript.airfryer_total_time"].state;
+        var remaining_duration = states["pyscript.airfryer_disp_time"].state;
+        var updated_at = states["pyscript.airfryer_timestamp"].state.replace("Z","");
+        
+        if (entity.state == "cooking" && !isNaN(total_duration)){
+          if(this._refresh_timer === undefined){this._refresh_timer = window.setInterval(() => { this.update() }, 1000)}
+        }
+        else{
+          if(this._refresh_timer !== undefined){window.clearInterval(this._refresh_timer);delete this._refresh_timer;}
+          console.log(!isNaN(total_duration)); 
+        }
+
+        if (entity.state == "cooking" && !isNaN(total_duration)){
+          this.real_position = Math.round(remaining_duration-(Date.now() - new Date(updated_at).getTime()) / 1000);
+          if(this.real_position < 0){this.real_position = 0;}
+          if(this.real_position >= total_duration){this.real_position = total_duration;}
+
+          return `<span style="float: left;">${myTime(this.real_position)}</span>&nbsp;<ha-icon icon='mdi:clock-outline'></ha-icon>`
+        }
+        else if (entity.state == "cooking" && isNaN(total_duration)){
+          return `<span style="float: right;opacity:1">
+          <span style="text-align: right;">cooking</span></span>`
+        }
+        else{
+          this.real_position = remaining_duration;
+          return `<span style="float: left;">${myTime(this.real_position)}</span>&nbsp;<ha-icon icon='mdi:motion-pause-outline'></ha-icon>`
+        }
+      }
+      else if (typeof(entity)!='undefined' && (entity.state != 'standby' || entity.state != 'powersave')){ 
+        return "<ha-icon icon='mdi:power-standby' style='width:22px;'></ha-icon>" }
+      else{ return "<ha-icon icon='mdi:wifi-off'></ha-icon>" }
+      ]]]
