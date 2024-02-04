@@ -1,6 +1,6 @@
 # Pyscript - Philips Airfryer
 
-> ### :warning: **DISCLAIMER: Use at your own risk only! This code is unofficial (not affiliated with Philips), _probably poorly programmed_ and work in progress. It could damage your device or property. It could cause errors in the Airfryer, bypass its safety features and, for example, cause a fire. I'm not responsible for any damage if you use this code anyway.** :warning:
+> ### :warning: **DISCLAIMER: Use at your own risk only! This code is unofficial (not affiliated with Philips), _probably poorly programmed_ and work in progress. It could theoretically damage your device or property. It could cause errors in the Airfryer, bypass safety features that we don't know about and that way, for example, cause a fire. I'm not responsible for any damage if you use this code anyway. Do not use unattended.** :warning:
 
 <img alt="image" src="https://github.com/noxhirsch/Pyscript-Philips-Airfryer/assets/30938717/93ffddc8-aae4-4a8f-b554-a6a98ffc0a8f">
 
