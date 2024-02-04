@@ -1,12 +1,29 @@
 # Pyscript - Philips Airfryer
 
-> :warning: **DISCLAIMER: Use at your own risk only! This code is unofficial (not affiliated with Philips), _probably poorly programmed_ and work in progress. It could damage your device or property. It could cause errors in the Airfryer, bypass its safety features and, for example, cause a fire. I'm not responsible for any damage if you use this code anyway.** :warning:
-
-## Content
-- airfryer.py => Move to /config/pyscript/ and adjust the settings in lines 2-7 (Pyscript needs to bee installed)
-- frontend_card.txt => Create a new "manual card" and copy&paste the content of the txt-file (button-card needs to be installed)
+> ### :warning: **DISCLAIMER: Use at your own risk only! This code is unofficial (not affiliated with Philips), _probably poorly programmed_ and work in progress. It could damage your device or property. It could cause errors in the Airfryer, bypass its safety features and, for example, cause a fire. I'm not responsible for any damage if you use this code anyway.** :warning:
 
 <img alt="image" src="https://github.com/noxhirsch/Pyscript-Philips-Airfryer/assets/30938717/93ffddc8-aae4-4a8f-b554-a6a98ffc0a8f">
+
+## Setup
+- Get your `client_id` & `client_secret` as described below
+- Set up your router to give the Airfryer a static IP
+- Install pyscript, add your settings (see example below) to Home Assistant's configuration.yaml and restart Home Assistant
+  ```
+  pyscript:
+    allow_all_imports: true
+    apps:
+      airfryer:
+        airfryer_ip: '192.168.0.123'
+        client_id: 'XXXXXXXXXXXXXXXXXXXXXX=='
+        client_secret: 'XXXXXXXXXXXXXXXXXXXXXX=='
+        # command_url: '/di/v1/products/1/airfryer' # Optional: Set it to "/di/v1/products/1/venusaf" for some devices (HD9880/90, ...?)
+        # airspeed: False          # Optional: Set it to True only for HD9880/90
+        # probe: False             # Optional: Set it to True only for HD9880/90 & HD9875/90
+        # update_interval: '20sec' # Optional: Change interval to update sensor - you can also call service 'pyscript.airfryer_sensors_update' to get an instant update
+        # replace_timestamp: False # Optional: Set to True if you block internet for the Airfryer. Replaces device timestamp with server timestamp
+  ```
+- airfryer.py => Download and move to /config/pyscript/ 
+- frontend_card.txt => Create a new "manual card" in the Home Assistant UI and copy & paste the content of the file into it (button-card needs to be installed)
 
 
 ## Some information:
