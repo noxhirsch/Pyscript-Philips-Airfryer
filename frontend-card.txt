@@ -95,7 +95,10 @@ custom_fields:
       if(states['pyscript.airfryer_probe_unplugged'] != undefined && states['pyscript.airfryer_probe_unplugged'].state == "False"){
         content += "<ha-icon icon='mdi:thermometer' style='margin-left:5px;'></ha-icon>"
       }
-      if(states['pyscript.airfryer_drawer_open'].state == "True"){
+      if(states['pyscript.airfryer_drawer_open'].state == "True" && (states['pyscript.airfryer_status'].state == "standby" || states['pyscript.airfryer_status'].state == "powersave")){
+        content += "<ha-icon icon='mdi:archive-arrow-down-outline' style='color:white;margin-left:5px;'></ha-icon>"
+      }
+      else if(states['pyscript.airfryer_drawer_open'].state == "True"){
         content += "<ha-icon icon='mdi:archive-arrow-down-outline' style='color:red;margin-left:5px;'></ha-icon>"
       }
       if(states['pyscript.airfryer_dialog'].state != "none" & states['pyscript.airfryer_dialog'].state != "close_drawer "){
