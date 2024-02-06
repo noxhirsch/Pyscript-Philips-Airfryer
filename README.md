@@ -7,6 +7,7 @@
 ## Compatibility
 - HD9880 ✅
 - HD9255 in progress
+
 For other devices at least the sensors should work, but I'd not recommend using the service_calls.
 More devices might be added, but requiere your help (collect some data via REST commands and sniff traffic via Fiddler Classic).
 
