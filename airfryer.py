@@ -45,7 +45,8 @@ if config == None:
     command_url        = '/di/v1/products/1/airfryer'
     update_interval    = '86400sec'
     replace_timestamp  = False
-    remaining_time     = 'disp_time'
+    time_remaining     = 'disp_time'
+    time_total         = 'total_time'
 else:
     airfryer_ip        = config.get('airfryer_ip')
     client_id          = config.get('client_id')
@@ -55,7 +56,8 @@ else:
     command_url        = config.get('command_url', '/di/v1/products/1/airfryer')
     update_interval    = config.get('update_interval', '20sec')
     replace_timestamp  = config.get('replace_timestamp', False)
-    remaining_time     = config.get('remaining_time', 'disp_time')
+    time_remaining     = config.get('time_remaining', 'disp_time')
+    time_total         = config.get('time_total', 'total_time')
 
 state.persist('pyscript.airfryer_token', '')
 state.persist('pyscript.airfryer_status')
@@ -653,19 +655,19 @@ def set_entities(response):
         pyscript.airfryer_dialog = content.get('dialog')
         if response_time:
             pyscript.airfryer_response_time = round(response[1].elapsed.total_seconds(),3)
-        if content.get(remaining_time) == 0 or content.get('status') == "standby" or content.get('status') == "powersave":
+        if content.get(time_remaining) == 0 or content.get('status') == "standby" or content.get('status') == "powersave":
             pyscript.airfryer_progress = 0
             pyscript.airfryer_timestamp = ""
             pyscript.airfryer_total_time = ""
             pyscript.airfryer_disp_time = ""
         else:
-            pyscript.airfryer_progress = round((content.get('total_time')-content.get(remaining_time))/content.get('total_time')*100,1)
+            pyscript.airfryer_progress = round((content.get(time_total)-content.get(time_remaining))/content.get(time_total)*100,1)
             if replace_timestamp:
                 pyscript.airfryer_timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             else:
                 pyscript.airfryer_timestamp = datetime.datetime.strptime(content.get('timestamp'), '%Y-%m-%dT%H:%M:%SZ')
-            pyscript.airfryer_total_time = content.get('total_time')
-            pyscript.airfryer_disp_time = content.get(remaining_time)
+            pyscript.airfryer_total_time = content.get(time_total)
+            pyscript.airfryer_disp_time = content.get(time_remaining)
         if airspeed:
             pyscript.airfryer_airspeed = content.get('airspeed')
         if probe:
