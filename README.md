@@ -7,6 +7,8 @@
 ## Compatibility
 - HD9880 ✅
 - HD9255 in progress
+For other devices at least the sensors should work, but I'd not recommend using the service_calls.
+More devices might be added, but requiere your help (collect some data via REST commands and sniff traffic via Fiddler Classic).
 
 ## Setup
 - Get your `client_id` & `client_secret` as described below
@@ -22,10 +24,11 @@
         client_secret: 'XXXXXXXXXXXXXXXXXXXXXX=='
         # Optional settings (only needed in some cases):
         # command_url: '/di/v1/products/1/airfryer' # Set it to "/di/v1/products/1/venusaf" for some devices (HD9880/90, ...?)
-        # airspeed: False          # Set it to True only for HD9880/90
-        # probe: False             # Set it to True only for HD9880/90 & HD9875/90
-        # update_interval: '20sec' # Change interval to update sensor - you can also call service 'pyscript.airfryer_sensors_update' to get an instant update
-        # replace_timestamp: False # Set to True if you block internet for the Airfryer. Replaces wrong device timestamp with correct server timestamp
+        # airspeed: False              # Set it to True only for HD9880/90
+        # probe: False                 # Set it to True only for HD9880/90 & HD9875/90
+        # update_interval: '20sec'     # Change interval to update sensor - you can also call service 'pyscript.airfryer_sensors_update' to get an instant update
+        # replace_timestamp: False     # Set to True if you block internet for the Airfryer. Replaces wrong device timestamp with correct server timestamp
+        # remaining_time: 'disp_time'  # Set it to 'cur_time' for HD9255 (Experimental)
   ```
 - airfryer.py => Download and move to /config/pyscript/ 
 - frontend_card.txt => Create a new "manual card" in the Home Assistant UI and copy & paste the content of the file into it (button-card needs to be installed)
