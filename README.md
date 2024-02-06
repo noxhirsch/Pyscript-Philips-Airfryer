@@ -4,6 +4,10 @@
 
 <img alt="image" src="https://github.com/noxhirsch/Pyscript-Philips-Airfryer/assets/30938717/93ffddc8-aae4-4a8f-b554-a6a98ffc0a8f">
 
+## Compatibility
+- HD9880 ✅
+- HD9255 in progress
+
 ## Setup
 - Get your `client_id` & `client_secret` as described below
 - Set up your router to give the Airfryer a static IP
