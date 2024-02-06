@@ -37,23 +37,25 @@ import asyncio
 config = pyscript.config.get('apps').get('airfryer')
 if config == None:
     log.error("############### Airfryer: No config found. Please check the documentation! ###############")
-    airfryer_ip       = ""
-    client_id         = ""
-    client_secret     = ""
-    airspeed          = False 
-    probe             = False
-    command_url       = '/di/v1/products/1/airfryer'
-    update_interval   = '86400sec'
-    replace_timestamp = False
+    airfryer_ip        = ""
+    client_id          = ""
+    client_secret      = ""
+    airspeed           = False 
+    probe              = False
+    command_url        = '/di/v1/products/1/airfryer'
+    update_interval    = '86400sec'
+    replace_timestamp  = False
+    remaining_time     = 'disp_time'
 else:
-    airfryer_ip       = config.get('airfryer_ip')
-    client_id         = config.get('client_id')
-    client_secret     = config.get('client_secret')
-    airspeed          = config.get('airspeed', False)
-    probe             = config.get('probe', False)
-    command_url       = config.get('command_url', '/di/v1/products/1/airfryer')
-    update_interval   = config.get('update_interval', '20sec')
-    replace_timestamp = config.get('replace_timestamp', False)
+    airfryer_ip        = config.get('airfryer_ip')
+    client_id          = config.get('client_id')
+    client_secret      = config.get('client_secret')
+    airspeed           = config.get('airspeed', False)
+    probe              = config.get('probe', False)
+    command_url        = config.get('command_url', '/di/v1/products/1/airfryer')
+    update_interval    = config.get('update_interval', '20sec')
+    replace_timestamp  = config.get('replace_timestamp', False)
+    remaining_time     = config.get('remaining_time', 'disp_time')
 
 state.persist('pyscript.airfryer_token', '')
 state.persist('pyscript.airfryer_status')
@@ -129,6 +131,7 @@ def airfryer_turn_on():
     await asyncio.sleep(sleep_time)
     command_in_progress = False
 
+
 @service
 def airfryer_turn_off():
     """yaml
@@ -155,6 +158,7 @@ def airfryer_turn_off():
     set_entities(response)
     await asyncio.sleep(sleep_time)
     command_in_progress = False
+
 
 if airspeed:
     @service
@@ -302,6 +306,7 @@ else:
         await asyncio.sleep(sleep_time)
         command_in_progress = False
 
+
 @service
 def airfryer_adjust_time(time=0,method="add",restart_cooking=True,force_update=True):
     """yaml
@@ -379,6 +384,7 @@ def airfryer_adjust_time(time=0,method="add",restart_cooking=True,force_update=T
         set_entities(response)
     await asyncio.sleep(sleep_time)
     command_in_progress = False
+
 
 @service
 def airfryer_adjust_temp(temp=0,method="add",restart_cooking=True,force_update=True):
@@ -647,19 +653,19 @@ def set_entities(response):
         pyscript.airfryer_dialog = content.get('dialog')
         if response_time:
             pyscript.airfryer_response_time = round(response[1].elapsed.total_seconds(),3)
-        if content.get('disp_time') == 0 or content.get('status') == "standby" or content.get('status') == "powersave":
+        if content.get(remaining_time) == 0 or content.get('status') == "standby" or content.get('status') == "powersave":
             pyscript.airfryer_progress = 0
             pyscript.airfryer_timestamp = ""
             pyscript.airfryer_total_time = ""
             pyscript.airfryer_disp_time = ""
         else:
-            pyscript.airfryer_progress = round((content.get('total_time')-content.get('disp_time'))/content.get('total_time')*100,1)
+            pyscript.airfryer_progress = round((content.get('total_time')-content.get(remaining_time))/content.get('total_time')*100,1)
             if replace_timestamp:
                 pyscript.airfryer_timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             else:
                 pyscript.airfryer_timestamp = datetime.datetime.strptime(content.get('timestamp'), '%Y-%m-%dT%H:%M:%SZ')
             pyscript.airfryer_total_time = content.get('total_time')
-            pyscript.airfryer_disp_time = content.get('disp_time')
+            pyscript.airfryer_disp_time = content.get(remaining_time)
         if airspeed:
             pyscript.airfryer_airspeed = content.get('airspeed')
         if probe:
