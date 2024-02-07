@@ -52,3 +52,5 @@ More devices might be added, but requiere your help (collect some data via REST 
 4. Open SQLite Database Editor and allow Root for it (if that doesn't work Root might need to be enabled in Android 86 Developer Settings)
 5. In the SQLite Database Editor select NutriU > network_node.db > network_node
 6. The second last two columns are the ones we are interested in (swipe left to get there)
+
+It can happen that the client secrets change at some point. One possible cause could be the setup of the remote connection.
