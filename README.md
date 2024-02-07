@@ -5,8 +5,11 @@
 <img alt="image" src="https://github.com/noxhirsch/Pyscript-Philips-Airfryer/assets/30938717/93ffddc8-aae4-4a8f-b554-a6a98ffc0a8f">
 
 ## Compatibility
-- HD9880 ✅
-- HD9255 (in progress - do not use service_calls)
+| Device | Sensors | Service Calls |
+| --- | --- | --- |
+| HD9880 | ✅ | ✅ |
+| HD9285 | ✅ | unchecked |
+| HD9255 | in progress | unchecked |
 
 For other devices at least the sensors should work, but I'd not recommend using the service_calls.
 More devices might be added, but requiere your help (collect some data via REST commands and sniff traffic via for example Fiddler Classic).
