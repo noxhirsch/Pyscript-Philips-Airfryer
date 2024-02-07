@@ -32,6 +32,7 @@ import hashlib
 import requests
 import json
 import datetime
+import dateutil.parser
 import asyncio
 
 config = pyscript.config.get('apps').get('airfryer')
@@ -665,7 +666,7 @@ def set_entities(response):
             if replace_timestamp:
                 pyscript.airfryer_timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             else:
-                pyscript.airfryer_timestamp = datetime.datetime.strptime(content.get('timestamp'), '%Y-%m-%dT%H:%M:%SZ')
+                pyscript.airfryer_timestamp = dateutil.parser.parse(content.get('timestamp'), ignoretz=True)
             pyscript.airfryer_total_time = content.get(time_total)
             pyscript.airfryer_disp_time = content.get(time_remaining)
         if airspeed:
